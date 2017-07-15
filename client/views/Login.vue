@@ -1,12 +1,17 @@
 <template lang="pug">
-  .login-dialog
-    .login-forma
-      .login-title
-        | login
-        .login-close X
-      .login-email: input(type='email', v-model='email', placeholder='Email')
-      .login-password: input(type='password', v-model='password', placeholder='Password')
-      .login-submit: button(@click="login") login
+  .modal-dialog
+    .modal-window
+      .modal-head
+        .modal-title login
+        .modal-close &times;
+      .modal-body
+        .form-field
+          label Email
+          input(type='email', v-model='email', placeholder='Email')
+        .form-field
+          label Pass
+          input(type='password', v-model='password', placeholder='Password')
+        .modal-submit: button(@click="login") login
 </template>
 
 <script>
@@ -19,7 +24,14 @@ export default {
   },
   methods: {
     login () {
-      this.$http.post('http://localhost:8000/oauth/token')
+      var data = {
+        client_id: 2,
+        client_secret: 'A2Yw5pkNscY8h7HeRyAnanGDZHyNKTyImTuSFKva',
+        grant_type: 'password',
+        username: this.email,
+        password: this.password
+      }
+      this.$http.post('http://localhost:8000/oauth/token', data)
         .then(function (response) {
           console.log(response)
         })
@@ -29,24 +41,6 @@ export default {
 </script>
 
 <style lang="sass">
-  .login-dialog
-    display: flex
-    flex-direction: column
-    justify-content: center
-    align-items: center
-    background-color: rgba(0,0,0,0.5)
-    position: fixed
-    height: 100%
-    width: 100%
-  .login-title
-    display: flex
-    flex-direction: row
-    justify-content: space-between
-  .login-close
-    align-self: flex-start
-  .login-forma
-    display: flex
-    flex-direction: column
-    background-color: rgba(255,255,255,1)
-    padding: 20px
+@import "static/modal-dialog.sass"
+@import "static/form.sass"
 </style>

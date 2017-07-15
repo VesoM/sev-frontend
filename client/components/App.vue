@@ -1,11 +1,11 @@
 <template lang='pug'>
   #app
     .dv1 crvena
-      | novi red
+      | novi red aaaaaaaaa
     .dv2 plava
-      | novi red
+      | novi red bbbbbbbb
     .dv3 zelena
-      | novi red
+      | novi red ccccccc
     router-view
 </template>
 
