@@ -5,7 +5,7 @@
       nav: ul
         li: a(href="#") Grupe stanova
         li: a(href="#") Korisničke grupe
-        li: a(href="#" @click="logout") Odjava
+        li: a(href="#" @click="logout") Odjava ({{authUser.name}})
     section: router-view
 </template>
 
@@ -13,7 +13,22 @@
 import Counter from 'components/Counter'
 
 export default {
+  data () {
+    return {
+      authUser: null
+    }
+  },
+  created () {
+    this.getAuthenticatedUser()
+  },
   methods: {
+    getAuthenticatedUser () {
+      this.$http.get('http://localhost:8000/api/user', {headers: {'Accept': "application/json", 'Authorization': "Bearer " + this.$auth.getToken()}})
+      .then(response => {
+        console.log(response)
+        this.authUser = response.data
+      })
+    },
     logout () {
       this.$auth.destroyToken()
       this.$router.push('/')
