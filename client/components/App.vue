@@ -1,11 +1,5 @@
 <template lang='pug'>
   #app
-    .dv1 crvena
-      | novi red aaaaaaaaa
-    .dv2 plava
-      | novi red bbbbbbbb
-    .dv3 zelena
-      | novi red ccccccc
     router-view
 </template>
 
@@ -38,10 +32,4 @@ body {
     flex-direction: column
     justify-content: center
     align-items: center
-  .dv1
-    background-color: blue
-  .dv2
-    background-color: red
-  .dv3
-    background-color: green
 </style>

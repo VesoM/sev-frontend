@@ -1,15 +1,24 @@
 <template lang="pug">
   .main-layout
     header
-      span.title Skupština etažnih vlasnika
+      span.title SEV
       nav: ul
-        li: router-link(to="/login") Prijava
-        li: router-link(to="/register") Registracija
-    section
+        li: a(href="#") Grupe stanova
+        li: a(href="#") Korisničke grupe
+        li: a(href="#" @click="logout") Odjava
+    section: router-view
 </template>
 
 <script>
+import Counter from 'components/Counter'
+
 export default {
+  methods: {
+    logout () {
+      this.$auth.destroyToken()
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 

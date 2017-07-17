@@ -31,9 +31,12 @@ export default {
         username: this.email,
         password: this.password
       }
+      var myself = this
       this.$http.post('http://localhost:8000/oauth/token', data)
         .then(function (response) {
           console.log(response)
+          myself.$auth.setToken(response.data.access_token, response.data.expires_in+Date.now())
+          myself.$router.push('/main')
         })
     }
   }
