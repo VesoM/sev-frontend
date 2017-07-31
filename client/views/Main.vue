@@ -1,69 +1,132 @@
 <template lang="pug">
   .main-layout
-    header
-      span.title SEV
-      nav: ul
-        li: a(href="#") Grupe stanova
-        li: a(href="#") Korisničke grupe
-        li: a(href="#" @click="logout") Odjava ({{authUser.name}})
-    section: router-view
+    .header
+      nav.navbar
+        .navbar-brand
+          .navbar-item
+            | SEV
+          .navbar-burger
+            span
+            span
+            span
+        .navbar-menu
+          .navbar-start
+            .navbar-item
+              | it1
+          .navbar-end
+            .navbar-item
+              a(href="#" @click="logout") Odjava ({{authUser.name}})
+    .body
+      .main: router-view
+        | neki sadrzaj
+      .aside.aside-1
+        aside.menu
+          p.menu-label
+            | Skupštine
+          ul.menu-list
+            li
+              a Svi vlasnici
+            li
+              a Izbor skupštine
+          p.menu-label
+            | Odabrana skupština
+          ul.menu-list
+            li
+              a Podaci o Skupštini
+            li
+              a Vlasnici
+            li
+              a Etaže
+          p.menu-label
+            | Finansije
+          ul.menu-list
+            li
+              a Transakcije
+            li
+              a Fakture
+            li
+              a Obračuni
+            li
+              a Izvještaji
+          p.menu-label
+            | Pomoć
+          ul.menu-list
+            li
+              a Kontakt
+            li
+              a Uputstva
+    .my-footer
+      | @copyright Milic, Veso, Branko
 </template>
 
 <script>
-import Counter from 'components/Counter'
-
-export default {
-  data () {
-    return {
-      authUser: null
-    }
-  },
-  created () {
-    this.getAuthenticatedUser()
-  },
-  methods: {
-    getAuthenticatedUser () {
-      this.$http.get('http://localhost:8000/api/user', {headers: {'Accept': "application/json", 'Authorization': "Bearer " + this.$auth.getToken()}})
-      .then(response => {
-        console.log(response)
-        this.authUser = response.data
-      })
+  import Counter from 'components/Counter'
+  export default {
+    data () {
+      return {
+        authUser: null
+      }
     },
-    logout () {
-      this.$auth.destroyToken()
-      this.$router.push('/')
+    created () {
+      this.getAuthenticatedUser()
+    },
+    methods: {
+      getAuthenticatedUser () {
+        this.$http.get('/user', {headers: {'Authorization': "Bearer " + this.$auth.getToken()}})
+        .then(response => {
+          console.log(response)
+          this.authUser = response.data
+        })
+      },
+      logout () {
+        this.$auth.destroyToken()
+        this.$router.push('/')
+      }
     }
   }
-}
 </script>
 
 <style lang='sass'>
+  @import '~bulma/sass/utilities/initial-variables.sass'
+  $menu-item-color: #464
+  $menu-item-hover-color: #5ea
+  @import '~bulma/bulma.sass'
   .main-layout
-    height: 100%
-    width: 100%
     display: flex
     flex-direction: column
-    justify-content: flex-start
-  .title
-    font-size: 2rem
-  header
-    flex: 0 0 3rem
-    display: flex
-    flex-flow: row wrap
-    justify-content: flex-start
-    align-items: center
-    nav ul
-      flex: 1 0 2.5rem
-      display: flex
-      flex-flow: row wrap
-      list-style-type: none
-      li
-        padding: 5px
-  section
     height: 100%
     width: 100%
+  .navbar
+    background-color: #eff
+  .my-footer
+    flex-basis: 2rem
+    flex-shrink: 5
+  .body
+    flex: 1
     display: flex
     flex-direction: column
-    justify-content: center
-    align-items: center
+    overflow-y: auto
+  .aside
+    //background-color: #446
+    flex: 1 0
+    overflow-y: auto
+  .main
+    flex: 1 0
+    background-color: #eee
+  .header
+    background-color: green
+
+  /* Medium screens */
+  @media all and (min-width: 600px)
+    /* We tell both sidebars to share a row */
+    .body
+      flex-direction: row
+    .main
+      flex: 4 0px
+    .aside-1
+      order: 1
+    .main
+      order: 2
+    .aside-2
+      order: 3
 </style>

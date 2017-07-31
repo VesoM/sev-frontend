@@ -29,6 +29,8 @@ router.beforeEach(
     }
   }
 )
+axios.defaults.baseURL = 'http://localhost:8000/api'
+axios.defaults.headers.common['Accept'] = "application/json"
 Vue.prototype.$http = axios
 const app = new Vue({
   router,
